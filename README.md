@@ -1,6 +1,6 @@
 # express-mute
 
-Suppress deprecated API calls, removing the need for legacy routes and eases load on endpoints.
+Suppress deprecated API calls, removing the need for legacy routes and easing the load on endpoints.
 
 ## Features
 
