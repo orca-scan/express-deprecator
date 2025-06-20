@@ -1,8 +1,6 @@
 # express-mute
 
-Tiny Express middleware to silently suppress deprecated or noisy API calls, so you don’t need to maintain legacy routes or logic.
-
-Inspired by minimal design—just load your rules, add middleware, and your old clients are blocked before they hit your app.
+Tiny Express middleware to silently suppress deprecated API calls, removing the need to maintain legacy routes and easing load on endpoints.
 
 ## Features
 
