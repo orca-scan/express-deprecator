@@ -69,10 +69,7 @@ describe('express-mute middleware: mute', () => {
             .expect(426)
             .expect({
                 error: 'This API version is no longer supported',
-                upgrade: {
-                    required_version: '2.0',
-                    docs: 'https://api.example.com/docs/v2'
-                }
+                upgrade: 'https://api.example.com/docs/v2'
             });
     });
 
@@ -85,6 +82,44 @@ describe('express-mute middleware: mute', () => {
                     version: '3.2.1'
                 }
             })
+            .expect(200)
+            .expect({ ok: true });
+    });
+
+    it('should mute a single object body with matching nested values', async () => {
+        await request(app)
+            .post('/')
+            .send({
+                lib: { name: 'simplitics-client', version: '0.0.0' }
+            })
+            .expect(426)
+            .expect({
+                error: 'This API version is no longer supported',
+                upgrade: 'https://api.example.com/docs/v2'
+            });
+    });
+
+    it('should mute if one of the array items matches', async () => {
+        await request(app)
+            .post('/')
+            .send([
+                { lib: { name: 'not-matching' } },
+                { lib: { name: 'simplitics-client', version: '0.0.0' } }
+            ])
+            .expect(426)
+            .expect({
+                error: 'This API version is no longer supported',
+                upgrade: 'https://api.example.com/docs/v2'
+            });
+    });
+
+    it('should not mute if none of the array items match', async () => {
+        await request(app)
+            .post('/')
+            .send([
+                { lib: { name: 'invalid', version: '1.2.3' } },
+                { lib: { name: 'other' } }
+            ])
             .expect(200)
             .expect({ ok: true });
     });

@@ -78,11 +78,18 @@ function matchesRule(rule, req) {
     // match body fields
     if (rule.body && typeof req.body === 'object' && req.body !== null) {
         var bodyKeys = Object.keys(rule.body);
-        for (i = 0; i < bodyKeys.length; i++) {
-            key = bodyKeys[i];
-            value = getNestedValue(req.body, key) || '';
-            if (!matches(rule.body[key], value)) return false;
-        }
+        var bodyItems = Array.isArray(req.body) ? req.body : [req.body];
+
+        var anyMatched = bodyItems.some(function(item) {
+            for (i = 0; i < bodyKeys.length; i++) {
+                key = bodyKeys[i];
+                value = getNestedValue(item, key) || '';
+                if (!matches(rule.body[key], value)) return false;
+            }
+            return true;
+        });
+
+        if (!anyMatched) return false;
     }
 
     return true;
