@@ -31,8 +31,6 @@ app.get('/api/health', (req, res) => res.send('Healthy'));
 app.get('/api/user/:id', (req, res) => res.json({ id: req.params.id }));
 ```
 
-Now, requests matching a rule are muted immediately (e.g., login with bad key → 403).
-
 ### mute-rules/rules.json
 
 ```json
@@ -58,6 +56,8 @@ Now, requests matching a rule are muted immediately (e.g., login with bad key �
   }
 ]
 ```
+
+Now, requests matching a rule are muted immediately (e.g., login with bad key → 403).
 
 #### Rules behavior
 
