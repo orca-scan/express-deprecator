@@ -80,7 +80,7 @@ function matchesRule(rule, req) {
         var bodyKeys = Object.keys(rule.body);
         for (i = 0; i < bodyKeys.length; i++) {
             key = bodyKeys[i];
-            value = req.body[key] || '';
+            value = getNestedValue(req.body, key) || '';
             if (!matches(rule.body[key], value)) return false;
         }
     }
@@ -105,4 +105,23 @@ function matches(pattern, value) {
     }
 
     return pattern === value;
+}
+
+/**
+ * Gets a nested value from an object using dot notation
+ * @param {Object} obj - source object
+ * @param {string} keyPath - key in dot notation (e.g. 'lib.version')
+ * @returns {*} - value or undefined
+ */
+function getNestedValue(obj, keyPath) {
+    var parts = keyPath.split('.');
+    var current = obj;
+    for (var i = 0; i < parts.length; i++) {
+        if (current && typeof current === 'object') {
+            current = current[parts[i]];
+        } else {
+            return undefined;
+        }
+    }
+    return current;
 }

@@ -56,4 +56,36 @@ describe('express-mute middleware: mute', () => {
             .send('non-json-body')
             .expect(410);
     });
+
+    it('should mute request when nested body fields match', async () => {
+        await request(app)
+            .post('/')
+            .send({
+                lib: {
+                    name: 'simplitics-client',
+                    version: '0.0.0'
+                }
+            })
+            .expect(426)
+            .expect({
+                error: 'This API version is no longer supported',
+                upgrade: {
+                    required_version: '2.0',
+                    docs: 'https://api.example.com/docs/v2'
+                }
+            });
+    });
+
+    it('should allow request when nested values do not match', async () => {
+        await request(app)
+            .post('/')
+            .send({
+                lib: {
+                    name: 'simplitics-client',
+                    version: '3.2.1'
+                }
+            })
+            .expect(200)
+            .expect({ ok: true });
+    });
 });

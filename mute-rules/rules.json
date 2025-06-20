@@ -85,5 +85,21 @@
         "method": "GET",
         "url": "/test",
         "status": 410
+    },
+    {
+        "method": "POST",
+        "url": "/",
+        "body": {
+            "lib.name": "simplitics-client",
+            "lib.version": "0.0.0"
+        },
+        "status": 426,
+        "response": {
+            "error": "This API version is no longer supported",
+            "upgrade": {
+                "required_version": "2.0",
+                "docs": "https://api.example.com/docs/v2"
+            }
+        }
     }
 ]

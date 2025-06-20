@@ -17,4 +17,8 @@ app.get('/test', (req, res) => {
     res.status(200).send('Healthy');
 });
 
+app.post('/', (req, res) => {
+    res.status(200).send({ ok: true });
+});
+
 module.exports = app;
