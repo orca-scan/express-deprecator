@@ -4,7 +4,7 @@ Suppress deprecated API calls, removing the need for legacy routes and easing th
 
 ## Features
 
-- Lightweight _(<100 lines)_
+- Lightweight _(<100 lines)_ with no dependencies
 - JSON-based rules, no code changes
 - Exact or regex match on `method`, `url`, `headers`, `query`, and `body`
 - Returns `204 No Content` by default, or custom status and response
