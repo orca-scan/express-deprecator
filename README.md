@@ -1,6 +1,6 @@
 # express-mute
 
-Tiny express middleware that suppresses deprecated API calls, removing the need for legacy routes and eases load on endpoints.
+Suppress deprecated API calls, removing the need for legacy routes and eases load on endpoints.
 
 ## Features
 
