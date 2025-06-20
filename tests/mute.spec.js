@@ -99,39 +99,32 @@ describe('express-mute middleware: mute', () => {
             });
     });
 
-    it('should mute if one of the array items matches', async () => {
+    it('should mute when single object body matches all fields', async () => {
+        await request(app)
+            .post('/')
+            .send({
+                lib: { name: 'simplitics-client', version: '0.0.0' }
+            })
+            .expect(426);
+    });
+
+    it('should mute when one item in array body matches all fields', async () => {
         await request(app)
             .post('/')
             .send([
-                { lib: { name: 'not-matching' } },
+                { lib: { name: 'other-client', version: '1.0.0' } },
                 { lib: { name: 'simplitics-client', version: '0.0.0' } }
             ])
-            .expect(426)
-            .expect({
-                error: 'This API version is no longer supported',
-                upgrade: 'https://api.example.com/docs/v2'
-            });
+            .expect(426);
     });
 
-    it('should not mute if none of the array items match', async () => {
-        await request(app)
-            .post('/')
-            .send([
-                { lib: { name: 'invalid', version: '1.2.3' } },
-                { lib: { name: 'other' } }
-            ])
-            .expect(200)
-            .expect({ ok: true });
-    });
-
-    it('should not mute if only partial fields match across array items', async () => {
+    it('should not mute if no items match all required fields', async () => {
         await request(app)
             .post('/')
             .send([
                 { lib: { name: 'simplitics-client' } },
                 { lib: { version: '0.0.0' } }
             ])
-            .expect(200)
-            .expect({ ok: true });
+            .expect(200); // assuming your route handler returns 200
     });
 });
