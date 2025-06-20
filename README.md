@@ -6,9 +6,9 @@ Suppress deprecated API calls, removing the need for legacy routes and easing th
 
 - Lightweight (<100 lines)
 - JSON-based rules, no code changes
-- Supports exact and regex matching for `method`, `url`, `headers`, `query`, and `body`
-- Early returns: default `204 No Content`, or custom status and response
-- No legacy route handlers, keep your API clean
+- Exact or regex match on `method`, `url`, `headers`, `query`, and `body`
+- Returns `204 No Content` by default, or custom status and response
+- No legacy route needed, keep your API clean
 
 ## Installation
 
