@@ -44,11 +44,6 @@ app.get('/api/user/:id', (req, res) => res.json({ id: req.params.id }));
   },
   {
     "method": "GET",
-    "url": "/api/health",
-    "status": 204
-  },
-  {
-    "method": "GET",
     "url": "/^\\/api\\/user\\/.*$/",
     "headers": { "x-client": "/^v1\\./" },
     "status": 410,
