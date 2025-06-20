@@ -68,7 +68,7 @@ Now, requests matching a rule are muted immediately (e.g., login with bad key �
 
 ## Why use it?
 
-Over time, APIs accumulate old clients, noisy endpoints, or unwanted traffic. express-mute helps you:
+Over time, APIs accumulate old clients or unwanted traffic. express-mute helps to:
 * Remove legacy routes with no disruption
 * Drop deprecated traffic fast with minimal overhead
 * Manage rules in JSON—not code—so updates are painless
