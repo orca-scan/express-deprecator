@@ -1,0 +1,84 @@
+[
+    {
+        "method": "POST",
+        "url": "/api/login",
+        "headers": {
+            "x-api-key": "test-key"
+        },
+        "status": 403,
+        "response": {
+            "error": "Muted login"
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/health",
+        "status": 204
+    },
+    {
+        "method": "GET",
+        "url": "/api/literal-match",
+        "query": {
+            "env": "staging"
+        },
+        "status": 400,
+        "response": {
+            "error": "No longer supported"
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/regex-match",
+        "query": {
+            "id": "/^test-\\d+$/"
+        },
+        "status": 410,
+        "response": {
+            "error": "Deprecated ID"
+        }
+    },
+    {
+        "method": "POST",
+        "url": "/api/user",
+        "body": {
+            "device": "/^android.+/"
+        },
+        "status": 403,
+        "response": {
+            "error": "Android clients blocked"
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/user/.*",
+        "headers": {
+            "x-client": "/^v1/"
+        },
+        "status": 410,
+        "response": {
+            "error": "Client too old"
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/user/.*",
+        "headers": {
+            "x-client": "/^v1/"
+        },
+        "status": 410,
+        "response": {
+            "error": "Client too old"
+        }
+    },
+    {
+        "method": "GET",
+        "url": "/api/user/.*$/",
+        "headers": {
+            "x-client": "/^v1/"
+        },
+        "status": 410,
+        "response": {
+            "error": "Client too old"
+        }
+    }
+]
