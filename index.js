@@ -80,16 +80,17 @@ function matchesRule(rule, req) {
         var bodyKeys = Object.keys(rule.body);
         var bodyItems = Array.isArray(req.body) ? req.body : [req.body];
 
-        var anyMatched = bodyItems.some(function(item) {
+        // must match ALL body fields in ONE item
+        var matchFound = bodyItems.some(function(item) {
             for (i = 0; i < bodyKeys.length; i++) {
                 key = bodyKeys[i];
                 value = getNestedValue(item, key) || '';
                 if (!matches(rule.body[key], value)) return false;
             }
-            return true;
+            return true; // all fields matched in this item
         });
 
-        if (!anyMatched) return false;
+        if (!matchFound) return false;
     }
 
     return true;

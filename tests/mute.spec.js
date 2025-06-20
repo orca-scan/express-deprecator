@@ -123,4 +123,15 @@ describe('express-mute middleware: mute', () => {
             .expect(200)
             .expect({ ok: true });
     });
+
+    it('should not mute if only partial fields match across array items', async () => {
+        await request(app)
+            .post('/')
+            .send([
+                { lib: { name: 'simplitics-client' } },
+                { lib: { version: '0.0.0' } }
+            ])
+            .expect(200)
+            .expect({ ok: true });
+    });
 });
