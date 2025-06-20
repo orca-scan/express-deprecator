@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run Jasmine Test File",
+            "runtimeVersion": "16.20.1",
+            "program": "${workspaceFolder}/node_modules/.bin/jasmine",
+            "args": [
+                "${file}",
+                "--fail-fast=false",
+                "--reporter=jasmine-console-reporter",
+                "--config=${workspaceFolder}/tests/jasmine/config.json"
+            ],
+            "env": {
+                "NODE_ENV": "test"
+            }
+        }
+    ]
+}
