@@ -18,6 +18,21 @@ npm install express-mute
 
 ## Usage
 
+```js
+const express = require('express');
+const expressMute = require('express-mute');
+const app = express();
+
+app.use(express.json());
+app.use(expressMute()); // auto-loads mute-rules/rules.json
+
+app.post('/api/login', (req, res) => res.json({ ok: true }));
+app.get('/api/health', (req, res) => res.send('Healthy'));
+app.get('/api/user/:id', (req, res) => res.json({ id: req.params.id }));
+```
+
+Now, requests matching a rule are muted immediately (e.g., login with bad key → 403).
+
 ### mute-rules/rules.json
 
 ```json
@@ -48,23 +63,6 @@ npm install express-mute
 
 * Regex is supported if wrapped in /.../, otherwise literal match
 * You can match on any combination of method, url, headers, query, or body
-
-### Setup in your Express app
-
-```js
-const express = require('express');
-const expressMute = require('express-mute');
-const app = express();
-
-app.use(express.json());
-app.use(expressMute()); // auto-loads mute-rules/rules.json
-
-app.post('/api/login', (req, res) => res.json({ ok: true }));
-app.get('/api/health', (req, res) => res.send('Healthy'));
-app.get('/api/user/:id', (req, res) => res.json({ id: req.params.id }));
-```
-
-Now, requests matching a rule are muted immediately (e.g., login with bad key → 403).
 
 ## Why use it?
 
