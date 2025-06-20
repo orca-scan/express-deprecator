@@ -48,4 +48,12 @@ describe('express-mute middleware: mute', () => {
             .expect(410)
             .expect({ error: 'Client too old' });
     });
+
+    it('should not crash when req.body is not an object', async () => {
+        await request(app)
+            .get('/test')
+            .set('Content-Type', 'text/plain')
+            .send('non-json-body')
+            .expect(410);
+    });
 });

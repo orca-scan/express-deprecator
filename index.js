@@ -2,16 +2,16 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * Express middleware that blocks requests based on JSON rules
- * @param {string} configPath - Optional path to the JSON rules file
- * @returns {Function} - Middleware function for Express
+ * Express middleware to mute requests based on JSON rules
+ * @param {string} configPath - optional path to rules.json
+ * @returns {Function} - express middleware
  */
 module.exports = function expressMute(configPath) {
 
     var filePath = path.resolve(configPath || './mute-rules/rules.json');
     var rules = [];
 
-    // try to load the rules from the file
+    // load rules from file
     try {
         var file = fs.readFileSync(filePath, 'utf8');
         rules = JSON.parse(file);
@@ -20,70 +20,68 @@ module.exports = function expressMute(configPath) {
         console.warn('[express-mute] no rules loaded from', filePath);
     }
 
-    /**
-     * Express middleware handler
-     * @param {Request} req - express Request object
-     * @param {Response} res - express Response object
-     * @param {function} next - express next method
-     * @returns {Function} - Responds early if request matches any rule
-     */
     return function(req, res, next) {
 
         for (var i = 0; i < rules.length; i++) {
             var rule = rules[i];
 
-            // if rule does not match, skip to next
-            if (!match(rule, req)) continue;
-
-            // respond early if match found
-            var status = rule.status || 204;
-            return res.status(status).json(rule.response || {});
+            // respond early if rule matches
+            if (matchesRule(rule, req)) {
+                return res.status(rule.status || 204).json(rule.response || {});
+            }
         }
 
-        // pass to next middleware if no match
+        // continue if no rule matched
         next();
     };
 };
 
 /**
- * Checks if a rule matches the request
- * @param {Object} rule - Rule object from rules.json
+ * Check if a rule matches the request
+ * Only checks fields explicitly defined in the rule
+ * @param {Object} rule - One rule from rules.json
  * @param {Object} req - Express request object
- * @returns {boolean} - True if the rule matches the request
+ * @returns {boolean} - True if the rule matches
  */
-function match(rule, req) {
+function matchesRule(rule, req) {
 
-    // match HTTP method
+    // match method
     if (rule.method && rule.method.toLowerCase() !== req.method.toLowerCase()) return false;
 
-    // match path (regex supported if string starts and ends with '/')
+    // match URL path
     if (rule.url && !matches(rule.url, req.path)) return false;
 
     var i;
     var key;
+    var value;
 
+    // match headers (only those defined in rule)
     if (rule.headers) {
         var headerKeys = Object.keys(rule.headers);
         for (i = 0; i < headerKeys.length; i++) {
             key = headerKeys[i];
-            if (!matches(rule.headers[key], req.headers[key] || '')) return false;
+            value = req.headers[key] || '';
+            if (!matches(rule.headers[key], value)) return false;
         }
     }
 
+    // match query parameters
     if (rule.query) {
         var queryKeys = Object.keys(rule.query);
         for (i = 0; i < queryKeys.length; i++) {
             key = queryKeys[i];
-            if (!matches(rule.query[key], req.query[key] || '')) return false;
+            value = req.query[key] || '';
+            if (!matches(rule.query[key], value)) return false;
         }
     }
 
-    if (rule.body) {
+    // match body fields
+    if (rule.body && typeof req.body === 'object' && req.body !== null) {
         var bodyKeys = Object.keys(rule.body);
         for (i = 0; i < bodyKeys.length; i++) {
             key = bodyKeys[i];
-            var value = req.body ? req.body[key] : '';
-            if (!matches(rule.body[key], value || '')) return false;
+            value = req.body[key] || '';
+            if (!matches(rule.body[key], value)) return false;
         }
     }
 
@@ -91,20 +89,20 @@ function match(rule, req) {
 }
 
 /**
- * Compares a rule value to the actual request value
- * @param {string} pattern - Rule value (string or regex wrapped in /)
- * @param {string} value - Request value to compare against
- * @returns {boolean} - True if pattern matches the value
+ * Compares a rule pattern against a request value
+ * Supports regex if pattern is wrapped in slashes
+ * @param {string} pattern - Pattern to match against (string or /regex/)
+ * @param {string} value - Actual value from request
+ * @returns {boolean} - True if pattern matches value
  */
 function matches(pattern, value) {
     if (typeof pattern !== 'string') return false;
 
-    // use RegExp match if pattern is wrapped in /
+    // use regex if pattern is wrapped in slashes
     if (pattern[0] === '/' && pattern[pattern.length - 1] === '/') {
         var regex = new RegExp(pattern.slice(1, -1));
         return regex.test(value);
     }
 
-    // otherwise use direct equality
     return pattern === value;
 }

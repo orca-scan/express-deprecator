@@ -80,5 +80,10 @@
         "response": {
             "error": "Client too old"
         }
+    },
+    {
+        "method": "GET",
+        "url": "/test",
+        "status": 410
     }
 ]
