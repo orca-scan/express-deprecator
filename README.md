@@ -55,7 +55,5 @@ app.use(expressMute()); // auto-loads mute-rules/rules.json
 
 Now, requests matching a rule are muted immediately (e.g., login with bad key → 403).
 
-#### Rules behavior
-
 * Regex is supported if wrapped in /.../, otherwise literal match
 * You can match on any combination of method, url, headers, query, or body
