@@ -110,7 +110,7 @@ if (req.body?.lib?.version === '0.0.0') {
 ```
 
 But that logic sticks around forever. express-deprecator lets you:
-* manage deprecations via JSON (not source files)
+* manage deprecations in a JSON file _(not source code)_
 * remove rules once traffic fades
 * keep your API routes lean and focused
 
