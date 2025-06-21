@@ -14,7 +14,7 @@ Drop deprecated API traffic.
 * Not a security layer – built for hygiene, not defense
 * Keeps your codebase clean – no more if (version === '0.0.0')
 
-## Installation
+## Install
 
 ```bash
 npm install express-deprecator
