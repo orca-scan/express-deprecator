@@ -9,7 +9,7 @@ Suppress deprecated API calls: **Why?** Because APIs accumulate legacy clients a
 
 ## Features
 
-- Lightweight (_<100 lines_, no dependencies)
+- Lightweight, no dependencies
 - JSON rules — no routing, no handlers
 - Match on `method`, `url`, `headers`, `query`, or `body`
 - Supports exact and regex matches
