@@ -3,6 +3,13 @@ const request = require('supertest');
 
 describe('allow requests', () => {
 
+    it('should allow when rule expects body but request has none', async () => {
+        await request(app)
+            .post('/')
+            .expect(200)
+            .expect({ ok: true });
+    });
+
     it('should allow POST request with unmatched header', async () => {
         await request(app)
             .post('/')
@@ -46,6 +53,17 @@ describe('allow requests', () => {
             .query({
                 payload: JSON.stringify({ env: 'staging' })
             })
+            .expect(200)
+            .expect({ ok: true });
+    });
+
+    it('should allow if no items match all required fields', async () => {
+        await request(app)
+            .post('/')
+            .send([
+                { lib: { name: 'simplitics-client' } },
+                { lib: { version: '0.0.0' } }
+            ])
             .expect(200)
             .expect({ ok: true });
     });

@@ -1,7 +1,7 @@
 const app = require('./app.js');
 const request = require('supertest');
 
-describe('mute requests', () => {
+describe('block requests', () => {
 
     it('should mute matching POST request', async () => {
         await request(app)
@@ -41,13 +41,6 @@ describe('mute requests', () => {
             .set('x-client', 'v1.2.3')
             .expect(410)
             .expect({ error: 'Client too old' });
-    });
-
-    it('should not mute when rule expects body but request has none', async () => {
-        await request(app)
-            .post('/')
-            .expect(200)
-            .expect({ ok: true });
     });
 
     it('should not crash when req.body is not an object', async () => {
@@ -105,17 +98,6 @@ describe('mute requests', () => {
                 { lib: { name: 'simplitics-client', version: '0.0.0' } }
             ])
             .expect(426);
-    });
-
-    it('should not mute if no items match all required fields', async () => {
-        await request(app)
-            .post('/')
-            .send([
-                { lib: { name: 'simplitics-client' } },
-                { lib: { version: '0.0.0' } }
-            ])
-            .expect(200)
-            .expect({ ok: true });
     });
 
     it('should mute GET / when nested JSON in query matches rule', async () => {
