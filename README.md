@@ -5,16 +5,15 @@ Suppress deprecated API calls: **Why?** Because APIs accumulate legacy clients a
 **express-mute** lets you:
 - Drop deprecated traffic fast — no code changes
 - Remove old routes entirely
-- Mute requests using clean JSON rules
+- Mute requests using clean JSON rules _(no routes)_
 
 ## Features
 
 - Lightweight, no dependencies
-- JSON rules — no routing, no handlers
 - Match on `method`, `url`, `headers`, `query`, or `body`
-- Supports exact and regex matches
-- Returns `204 No Content` by default (or custom status + response)
-- Keeps your API surface clean — no legacy routes required
+- Match using regex _(must start and end with `/`)_
+- Returns `204` by default _(or custom status + response)_
+- Keeps your API surface clean
 
 ## Installation
 
@@ -63,4 +62,3 @@ Mutes `POST /api/submit` requests where the JSON body includes:
 }
 ```
 
-Note: regex is supported by wrapping the pattern in `/`...`/` - otherwise it's treated as a literal string.
