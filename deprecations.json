@@ -1,5 +1,6 @@
 [
     {
+        "description": "Block login attempts using a known test API key",
         "method": "POST",
         "url": "/",
         "headers": {
@@ -11,6 +12,7 @@
         }
     },
     {
+        "description": "Block staging environment requests via query param",
         "method": "GET",
         "url": "/",
         "query": {
@@ -22,6 +24,7 @@
         }
     },
     {
+        "description": "Block requests with deprecated test ID patterns",
         "method": "GET",
         "url": "/",
         "query": {
@@ -33,6 +36,7 @@
         }
     },
     {
+        "description": "Block all Android clients based on device name",
         "method": "POST",
         "url": "/",
         "body": {
@@ -44,6 +48,7 @@
         }
     },
     {
+        "description": "Block legacy clients based on outdated version header",
         "method": "GET",
         "url": "/",
         "headers": {
@@ -55,6 +60,7 @@
         }
     },
     {
+        "description": "Block specific outdated library version in request body",
         "method": "POST",
         "url": "/",
         "body": {
@@ -68,6 +74,7 @@
         }
     },
     {
+        "description": "Block deprecated clients via query param with nested JSON",
         "method": "GET",
         "url": "/",
         "query": {
