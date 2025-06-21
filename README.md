@@ -1,6 +1,8 @@
 # express-mute
 
-Suppress deprecated API calls: **Why?** over time APIs accumulate old clients or unwanted traffic, express-mute helps to:
+Suppress deprecated API calls: **Why?** because over time APIs accumulate old clients or unwanted traffic.
+
+express-mute helps to:
 * Remove legacy routes from your API
 * Drop deprecated traffic fast with minimal overhead
 * Manage rules in JSON so updates are painless
