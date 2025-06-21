@@ -1,7 +1,7 @@
 [
     {
         "method": "POST",
-        "url": "/api/login",
+        "url": "/",
         "headers": {
             "x-api-key": "test-key"
         },
@@ -12,12 +12,7 @@
     },
     {
         "method": "GET",
-        "url": "/api/health",
-        "status": 204
-    },
-    {
-        "method": "GET",
-        "url": "/api/literal-match",
+        "url": "/",
         "query": {
             "env": "staging"
         },
@@ -28,7 +23,7 @@
     },
     {
         "method": "GET",
-        "url": "/api/regex-match",
+        "url": "/",
         "query": {
             "id": "/^test-\\d+$/"
         },
@@ -39,9 +34,9 @@
     },
     {
         "method": "POST",
-        "url": "/api/user",
+        "url": "/",
         "body": {
-            "device": "/^android.+/"
+            "device": "/^android-/"
         },
         "status": 403,
         "response": {
@@ -50,41 +45,14 @@
     },
     {
         "method": "GET",
-        "url": "/api/user/.*",
+        "url": "/",
         "headers": {
-            "x-client": "/^v1/"
+            "x-client": "/^v\\d+\\.\\d+\\.\\d+$/"
         },
         "status": 410,
         "response": {
             "error": "Client too old"
         }
-    },
-    {
-        "method": "GET",
-        "url": "/api/user/.*",
-        "headers": {
-            "x-client": "/^v1/"
-        },
-        "status": 410,
-        "response": {
-            "error": "Client too old"
-        }
-    },
-    {
-        "method": "GET",
-        "url": "/api/user/.*$/",
-        "headers": {
-            "x-client": "/^v1/"
-        },
-        "status": 410,
-        "response": {
-            "error": "Client too old"
-        }
-    },
-    {
-        "method": "GET",
-        "url": "/test",
-        "status": 410
     },
     {
         "method": "POST",

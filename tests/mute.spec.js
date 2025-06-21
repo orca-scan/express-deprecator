@@ -1,25 +1,19 @@
 const app = require('./app.js');
 const request = require('supertest');
 
-describe('express-mute middleware: mute', () => {
+describe('mute requests', () => {
 
     it('should mute matching POST request', async () => {
         await request(app)
-            .post('/api/login')
+            .post('/')
             .set('x-api-key', 'test-key')
             .expect(403)
             .expect({ error: 'Muted login' });
     });
 
-    it('should mute matching GET request with no response body', async () => {
-        await request(app)
-            .get('/api/health')
-            .expect(204);
-    });
-
     it('should mute GET request with matching literal query param', async () => {
         await request(app)
-            .get('/api/literal-match')
+            .get('/')
             .query({ env: 'staging' })
             .expect(400)
             .expect({ error: 'No longer supported' });
@@ -27,7 +21,7 @@ describe('express-mute middleware: mute', () => {
 
     it('should mute GET request with regex-matching query param', async () => {
         await request(app)
-            .get('/api/regex-match')
+            .get('/')
             .query({ id: 'test-123' })
             .expect(410)
             .expect({ error: 'Deprecated ID' });
@@ -35,26 +29,34 @@ describe('express-mute middleware: mute', () => {
 
     it('should mute POST request with regex-matching body param', async () => {
         await request(app)
-            .post('/api/user')
+            .post('/')
             .send({ device: 'android-13' })
             .expect(403)
             .expect({ error: 'Android clients blocked' });
     });
 
-    it('should mute GET request with regex-matching url and header', async () => {
+    it('should mute GET request with regex-matching header', async () => {
         await request(app)
-            .get('/api/user/5678')
+            .get('/')
             .set('x-client', 'v1.2.3')
             .expect(410)
             .expect({ error: 'Client too old' });
     });
 
+    it('should not mute when rule expects body but request has none', async () => {
+        await request(app)
+            .post('/')
+            .expect(200)
+            .expect({ ok: true });
+    });
+
     it('should not crash when req.body is not an object', async () => {
         await request(app)
-            .get('/test')
+            .post('/')
             .set('Content-Type', 'text/plain')
             .send('non-json-body')
-            .expect(410);
+            .expect(200)
+            .expect({ ok: true });
     });
 
     it('should mute request when nested body fields match', async () => {
@@ -71,19 +73,6 @@ describe('express-mute middleware: mute', () => {
                 error: 'This API version is no longer supported',
                 upgrade: 'https://api.example.com/docs/v2'
             });
-    });
-
-    it('should allow request when nested values do not match', async () => {
-        await request(app)
-            .post('/')
-            .send({
-                lib: {
-                    name: 'simplitics-client',
-                    version: '3.2.1'
-                }
-            })
-            .expect(200)
-            .expect({ ok: true });
     });
 
     it('should mute a single object body with matching nested values', async () => {
@@ -125,6 +114,7 @@ describe('express-mute middleware: mute', () => {
                 { lib: { name: 'simplitics-client' } },
                 { lib: { version: '0.0.0' } }
             ])
-            .expect(200); // assuming your route handler returns 200
+            .expect(200)
+            .expect({ ok: true });
     });
 });

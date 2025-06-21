@@ -76,7 +76,10 @@ function matchesRule(rule, req) {
     }
 
     // match body fields
-    if (rule.body && typeof req.body === 'object' && req.body !== null) {
+    if (rule.body) {
+
+        if (typeof req.body !== 'object' || req.body === null) return false;
+
         var bodyKeys = Object.keys(rule.body);
         var bodyItems = Array.isArray(req.body) ? req.body : [req.body];
 
