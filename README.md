@@ -113,3 +113,7 @@ But that logic sticks around forever. express-deprecator lets you:
 * manage deprecations via JSON (not source files)
 * remove rules once traffic fades
 * keep your API routes lean and focused
+
+## License
+
+[MIT License](LICENSE) © Orca Scan - a [barcode app](https://orcascan.com) with simple [barcode tracking APIs](https://orcascan.com/guides?tag=for-developers).
