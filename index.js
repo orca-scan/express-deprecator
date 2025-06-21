@@ -136,12 +136,23 @@ function matchesRule(rule, req) {
  * @returns {boolean} - True if pattern matches value
  */
 function matches(pattern, value) {
-    if (typeof pattern !== 'string') return false;
+    if (typeof pattern !== 'string' && typeof pattern !== 'boolean' && typeof pattern !== 'number') return false;
 
-    // use regex if pattern is wrapped in slashes
-    if (pattern[0] === '/' && pattern[pattern.length - 1] === '/') {
-        var regex = new RegExp(pattern.slice(1, -1));
-        return regex.test(value);
+    // convert strings like "true", "false", "123" into proper types
+    if (typeof value === 'string') {
+        if (value === 'true') value = true;
+        else if (value === 'false') value = false;
+        else if (!isNaN(value) && value.trim() !== '') value = Number(value);
+    }
+
+    if (typeof pattern === 'string') {
+        // use regex if pattern is wrapped in slashes
+        if (pattern[0] === '/' && pattern[pattern.length - 1] === '/') {
+            var regex = new RegExp(pattern.slice(1, -1));
+            return regex.test(String(value));
+        }
+
+        return pattern === String(value);
     }
 
     return pattern === value;
