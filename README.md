@@ -1,8 +1,6 @@
 # express-deprecator
 
-Drop deprecated API traffic without leaving legacy code behind.
-
-Over time, APIs accumulate old clients, outdated apps, and noisy third-party calls. express-deprecator helps you phase them out without leaving legacy routes or messy logic in your express app.
+Drop deprecated API traffic: over time, APIs accumulate old clients, outdated apps, and unsupported traffic. express-deprecator helps you phase them out without leaving legacy routes or messy logic in your express app.
 
 **Why use it?**
  * Cleanly deprecate old clients, integrations, and routes
