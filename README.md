@@ -62,4 +62,4 @@ Mutes `POST /api/submit` requests where the JSON body includes:
 }
 ```
 
-Note: regex is supported by wrapping the pattern in /.../ — otherwise it’s treated as a literal string
+Note: regex is supported by wrapping the pattern in `/`...`/` - otherwise it's treated as a literal string.
