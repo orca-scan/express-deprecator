@@ -2,10 +2,10 @@
 
 Suppress deprecated API calls, removing the need for legacy routes and easing load on endpoints.
 
-**Why?** over time, APIs accumulate old clients or unwanted traffic. express-mute helps to:
-* Remove legacy routes with no disruption
+**Why?** over time APIs accumulate old clients or unwanted traffic, express-mute helps to:
+* Remove legacy routes from your API
 * Drop deprecated traffic fast with minimal overhead
-* Manage rules in JSON _(not code)_ so updates are painless
+* Manage rules in JSON so updates are painless
 
 ## Features
 
