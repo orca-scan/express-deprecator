@@ -1,19 +1,22 @@
 # express-mute
 
-Suppress deprecated API calls: **Why?** because over time APIs accumulate old clients and unwanted traffic.
+Suppress deprecated API calls.
 
-express-mute helps to:
-* Remove legacy routes from your API
-* Drop deprecated traffic fast with minimal overhead
-* Mute requests using JSON rules, not code
+**Why?** Because APIs accumulate legacy clients and unwanted traffic over time.
+
+**express-mute** lets you:
+- Drop deprecated traffic fast — no code changes
+- Remove old routes entirely
+- Mute requests using clean JSON rules
 
 ## Features
 
-- Lightweight _(<100 lines)_ with no dependencies
-- JSON-based rules, no code changes
-- Exact or regex match on `method`, `url`, `headers`, `query`, and `body`
-- Returns `204 No Content` by default, or custom status and response
-- No legacy route needed, keep your API clean
+- Lightweight (_<100 lines_, no dependencies)
+- JSON rules — no routing, no handlers
+- Match on `method`, `url`, `headers`, `query`, or `body`
+- Supports exact and regex matches
+- Returns `204 No Content` by default (or custom status + response)
+- Keeps your API surface clean — no legacy routes required
 
 ## Installation
 
@@ -38,22 +41,28 @@ app.use(expressMute()); // auto-loads mute-rules/rules.json
 [
   {
     "method": "POST",
-    "url": "/api/login",
-    "headers": { "x-api-key": "test-key" },
-    "status": 403,
-    "response": { "error": "Deprecated client" }
-  },
-  {
-    "method": "GET",
-    "url": "/^\\/api\\/user\\/.*$/",
-    "headers": { "x-client": "/^v1\\./" },
-    "status": 410,
-    "response": { "error": "Client too old" }
+    "url": "/api/submit",
+    "body": {
+      "lib.version": "0.0.0"
+    },
+    "status": 426,
+    "response": {
+      "error": "This version of the client is no longer supported",
+      "upgrade": "https://api.example.com/docs/v2"
+    }
   }
 ]
 ```
 
-Now, requests matching a rule are muted immediately (e.g., login with bad key → 403).
+Mutes POST /api/submit requests where the JSON body includes:
 
-* Regex is supported if wrapped in /.../, otherwise literal match
-* You can match on any combination of method, url, headers, query, or body
+```json
+{
+  "lib": {
+    "version": "0.0.0"
+  }
+}
+```
+
+* Regex is supported by wrapping the pattern in /.../ — otherwise it’s treated as a literal string
+* Rules can match any combination of method, url, headers, query, and body — only the fields you define are checked
