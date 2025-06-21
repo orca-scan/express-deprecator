@@ -1,6 +1,8 @@
 # express-deprecator
 
 [![Tests](https://github.com/orca-scan/express-deprecator/actions/workflows/ci.yml/badge.svg)](https://github.com/orca-scan/express-deprecator/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/express-deprecator)](https://www.npmjs.com/package/express-deprecator)
+[![license](https://img.shields.io/github/license/orca-scan/express-deprecator)](https://github.com/orca-scan/express-deprecator/blob/master/LICENSE)
 
 Drop deprecated API traffic.
 
