@@ -13,9 +13,13 @@
     "type": "git",
     "url": "git+https://github.com/orca-scan/express-deprecator.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "deprecator",
+    "express",
+    "api"
+  ],
+  "author": "Orca Scan <hello@orcascan.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/orca-scan/express-deprecator/issues"
   },
