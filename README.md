@@ -52,7 +52,7 @@ app.use(expressMute()); // auto-loads mute-rules/rules.json
 ]
 ```
 
-Mutes POST /api/submit requests where the JSON body includes:
+Mutes `POST /api/submit` requests where the JSON body includes:
 
 ```json
 {
