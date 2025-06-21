@@ -9,7 +9,7 @@ Drop deprecated API traffic: over time, APIs accumulate old clients, outdated ap
 
 **Features**
 * No routes needed – matches requests before your logic runs
-* Fast + lightweight – under 100 LOC, no dependencies
+* Fast + lightweight – no dependencies
 * Match on method, url, headers, query, or body
 * Regex support – use "/^v1\\./" to match patterns
 * Not a security layer – built for hygiene, not defense
