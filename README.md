@@ -5,7 +5,7 @@ Suppress deprecated API calls: **Why?** because over time APIs accumulate old cl
 express-mute helps to:
 * Remove legacy routes from your API
 * Drop deprecated traffic fast with minimal overhead
-* Deprecate payloads using JSON rules, not code
+* Mute requests using JSON rules, not code
 
 ## Features
 
