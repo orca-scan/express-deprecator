@@ -30,10 +30,6 @@ const app = express();
 
 app.use(express.json());
 app.use(expressMute()); // auto-loads mute-rules/rules.json
-
-app.post('/api/login', (req, res) => res.json({ ok: true }));
-app.get('/api/health', (req, res) => res.send('Healthy'));
-app.get('/api/user/:id', (req, res) => res.json({ id: req.params.id }));
 ```
 
 ### mute-rules/rules.json
