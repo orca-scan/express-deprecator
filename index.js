@@ -3,12 +3,12 @@ const path = require('path');
 
 /**
  * Express middleware to mute requests based on JSON rules
- * @param {string} configPath - optional path to rules.json
+ * @param {string} configPath - optional path to deprecations.json
  * @returns {Function} - express middleware
  */
-module.exports = function expressMute(configPath) {
+module.exports = function(configPath) {
 
-    var filePath = path.resolve(configPath || './mute-rules/rules.json');
+    var filePath = path.resolve(configPath || './deprecations.json');
     var rules = [];
 
     // load rules from file

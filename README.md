@@ -1,19 +1,21 @@
 # express-deprecator
 
-Suppress deprecated API calls: **Why?** Because APIs accumulate legacy clients and unwanted traffic over time.
+Drop deprecated API traffic without leaving legacy code behind.
 
-**express-deprecator** lets you:
-- Drop deprecated traffic fast — no code changes
-- Remove old routes entirely
-- Mute requests using clean JSON rules _(no routes)_
+Over time, APIs accumulate old clients, outdated apps, and noisy third-party calls. express-deprecator helps you phase them out without leaving legacy routes or messy logic in your express app.
 
-## Features
+**Why use it?**
+ * Cleanly deprecate old clients, integrations, and routes
+ * Avoid hardcoding legacy checks inside your handlers
+ * Respond early to unwanted traffic using JSON rules
 
-- Lightweight, no dependencies
-- Match on `method`, `url`, `headers`, `query`, or `body`
-- Match using regex _(must start and end with `/`)_
-- Returns `204` by default _(or custom status + response)_
-- Keeps your API surface clean
+**Features**
+* No routes needed – matches requests before your logic runs
+* Fast + lightweight – under 100 LOC, no dependencies
+* Match on method, url, headers, query, or body
+* Regex support – use "/^v1\\./" to match patterns
+* Not a security layer – built for hygiene, not defense
+* Keeps your codebase clean – no more if (version === '0.0.0')
 
 ## Installation
 
@@ -29,15 +31,17 @@ const expressDeprecator = require('express-deprecator');
 const app = express();
 
 app.use(express.json());
-app.use(expressDeprecator()); // auto-loads mute-rules/rules.json
+app.use(expressDeprecator()); // auto-loads ./deprecations.json
 ```
 
-### mute-rules/rules.json
+### Example rule
+
+Block outdated client versions in request body:
 
 ```json
 [
   {
-    "description": "Block outdated clients (v0.0.0) via POST body",
+    "description": "Deprecate old client (v0.0.0)",
     "method": "POST",
     "url": "/api/submit",
     "body": {
@@ -46,15 +50,18 @@ app.use(expressDeprecator()); // auto-loads mute-rules/rules.json
     "status": 426,
     "response": {
       "error": "This version of the client is no longer supported",
-      "upgrade": "https://api.example.com/docs/v2"
+      "upgrade": "https://example.com/docs/v2"
     }
   }
 ]
 ```
 
-Mutes `POST /api/submit` requests where the JSON body includes:
+When a request like this is received:
 
-```json
+```bash
+POST /api/submit
+Content-Type: application/json
+
 {
   "lib": {
     "version": "0.0.0"
@@ -62,3 +69,50 @@ Mutes `POST /api/submit` requests where the JSON body includes:
 }
 ```
 
+It’s automatically blocked with:
+
+```bash
+HTTP/1.1 426 Upgrade Required
+Content-Type: application/json
+
+{
+  "error": "This version of the client is no longer supported",
+  "upgrade": "https://example.com/docs/v2"
+}
+```
+
+### Rule syntax
+
+* Match on any combination of:
+  * `method`: "GET", "POST", etc
+  * `url`: exact path or regex _(e.g. "/^\\/api\\//")_
+  * `headers`: header values _(supports regex)_
+  * `query`: supports nested JSON keys strings _(e.g. "payload.device.version")_
+  * `body`: supports nested keys in dot notation
+* Regex matches must be strings wrapped in `/`...`/`
+* By default, unmatched requests are passed to your routes
+* Matched requests are ended early with the given status and response
+
+### What it’s not for
+
+This module is not:
+* a rate limiter
+* a firewall
+* an authentication or security layer
+
+Use it to keep your API maintainable, not to protect it from abuse.
+
+### Why not just use code?
+
+You could do this in a route:
+
+```js
+if (req.body?.lib?.version === '0.0.0') {
+  return res.status(426).json({ error: 'Deprecated version' });
+}
+```
+
+But that logic sticks around forever. express-deprecator lets you:
+* manage deprecations via JSON (not source files)
+* remove rules once traffic fades
+* keep your API routes lean and focused
