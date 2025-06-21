@@ -66,5 +66,18 @@
             "error": "This API version is no longer supported",
             "upgrade": "https://api.example.com/docs/v2"
         }
+    },
+    {
+        "method": "GET",
+        "url": "/",
+        "query": {
+            "data.lib.name": "simplitics-client",
+            "data.lib.version": "0.0.0"
+        },
+        "status": 426,
+        "response": {
+            "error": "This API version is no longer supported",
+            "upgrade": "https://api.example.com/docs/v2"
+        }
     }
 ]

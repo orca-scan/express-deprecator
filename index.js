@@ -57,7 +57,9 @@ function matchesRule(rule, req) {
 
     // match headers (only those defined in rule)
     if (rule.headers) {
+
         var headerKeys = Object.keys(rule.headers);
+
         for (i = 0; i < headerKeys.length; i++) {
             key = headerKeys[i];
             value = req.headers[key] || '';
@@ -65,13 +67,42 @@ function matchesRule(rule, req) {
         }
     }
 
-    // match query parameters
+    // match query parameters (support nested keys if value is JSON)
     if (rule.query) {
+
         var queryKeys = Object.keys(rule.query);
+
         for (i = 0; i < queryKeys.length; i++) {
             key = queryKeys[i];
-            value = req.query[key] || '';
-            if (!matches(rule.query[key], value)) return false;
+            var expected = rule.query[key];
+
+            // dot notation indicates nested matching
+            if (key.indexOf('.') !== -1) {
+                var rootKey = key.split('.')[0];
+                var raw = req.query[rootKey];
+
+                // try parse raw value if it's a string
+                if (typeof raw === 'string') {
+                    try {
+                        var parsed = JSON.parse(raw);
+                        value = getNestedValue(parsed, key.split('.').slice(1).join('.')) || '';
+                    }
+                    catch (e) {
+                        return false;
+                    }
+                }
+                else if (typeof raw === 'object') {
+                    value = getNestedValue(raw, key.split('.').slice(1).join('.')) || '';
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                value = req.query[key] || '';
+            }
+
+            if (!matches(expected, value)) return false;
         }
     }
 
@@ -128,7 +159,8 @@ function getNestedValue(obj, keyPath) {
     for (var i = 0; i < parts.length; i++) {
         if (current && typeof current === 'object') {
             current = current[parts[i]];
-        } else {
+        }
+        else {
             return undefined;
         }
     }

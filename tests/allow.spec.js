@@ -39,4 +39,14 @@ describe('allow requests', () => {
             .expect(200)
             .expect({ ok: true });
     });
+
+    it('should allow GET / when nested JSON in query does not match', async () => {
+        await request(app)
+            .get('/')
+            .query({
+                payload: JSON.stringify({ env: 'staging' })
+            })
+            .expect(200)
+            .expect({ ok: true });
+    });
 });

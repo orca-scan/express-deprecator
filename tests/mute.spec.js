@@ -117,4 +117,22 @@ describe('mute requests', () => {
             .expect(200)
             .expect({ ok: true });
     });
+
+    it('should mute GET / when nested JSON in query matches rule', async () => {
+        await request(app)
+            .get('/')
+            .query({
+                data: {
+                    lib: {
+                        name: 'simplitics-client',
+                        version: '0.0.0'
+                    }
+                }
+            })
+            .expect(426)
+            .expect({
+                error: 'This API version is no longer supported',
+                upgrade: 'https://api.example.com/docs/v2'
+            });
+    });
 });
