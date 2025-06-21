@@ -1,5 +1,7 @@
 # express-deprecator
 
+[![Tests](https://github.com/orca-scan/express-deprecator/actions/workflows/ci.yml/badge.svg)](https://github.com/orca-scan/express-deprecator/actions/workflows/ci.yml)
+
 Drop deprecated API traffic: over time, APIs accumulate old clients, outdated apps, and unsupported traffic. express-deprecator helps you phase them out without leaving legacy routes or messy logic in your express app.
 
 **Why use it?**
