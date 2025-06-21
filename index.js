@@ -17,7 +17,7 @@ module.exports = function expressMute(configPath) {
         rules = JSON.parse(file);
     }
     catch (err) {
-        console.warn('[express-mute] no rules loaded from', filePath);
+        console.warn('[express-deprecator] no rules loaded from', filePath);
     }
 
     return function(req, res, next) {

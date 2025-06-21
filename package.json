@@ -1,5 +1,5 @@
 {
-  "name": "express-mute",
+  "name": "express-deprecator",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/orca-scan/express-mute.git"
+    "url": "git+https://github.com/orca-scan/express-deprecator.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/orca-scan/express-mute/issues"
+    "url": "https://github.com/orca-scan/express-deprecator/issues"
   },
-  "homepage": "https://github.com/orca-scan/express-mute#readme",
+  "homepage": "https://github.com/orca-scan/express-deprecator#readme",
   "devDependencies": {
     "eslint": "^4.6.1",
     "express": "^4.13.4",

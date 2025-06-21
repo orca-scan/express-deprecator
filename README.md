@@ -1,8 +1,8 @@
-# express-mute
+# express-deprecator
 
 Suppress deprecated API calls: **Why?** Because APIs accumulate legacy clients and unwanted traffic over time.
 
-**express-mute** lets you:
+**express-deprecator** lets you:
 - Drop deprecated traffic fast — no code changes
 - Remove old routes entirely
 - Mute requests using clean JSON rules _(no routes)_
@@ -18,18 +18,18 @@ Suppress deprecated API calls: **Why?** Because APIs accumulate legacy clients a
 ## Installation
 
 ```bash
-npm install express-mute
+npm install express-deprecator
 ```
 
 ## Usage
 
 ```js
 const express = require('express');
-const expressMute = require('express-mute');
+const expressDeprecator = require('express-deprecator');
 const app = express();
 
 app.use(express.json());
-app.use(expressMute()); // auto-loads mute-rules/rules.json
+app.use(expressDeprecator()); // auto-loads mute-rules/rules.json
 ```
 
 ### mute-rules/rules.json
