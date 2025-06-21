@@ -38,7 +38,7 @@ app.use(expressMute()); // auto-loads mute-rules/rules.json
 ```json
 [
   {
-  "description": "Block outdated clients (v0.0.0) via POST body",
+    "description": "Block outdated clients (v0.0.0) via POST body",
     "method": "POST",
     "url": "/api/submit",
     "body": {
