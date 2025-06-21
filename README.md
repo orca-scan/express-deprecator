@@ -62,5 +62,4 @@ Mutes POST /api/submit requests where the JSON body includes:
 }
 ```
 
-* Regex is supported by wrapping the pattern in /.../ — otherwise it’s treated as a literal string
-* Rules can match any combination of `method`, `url`, `headers`, `query`, and `body`
+Note: regex is supported by wrapping the pattern in /.../ — otherwise it’s treated as a literal string
