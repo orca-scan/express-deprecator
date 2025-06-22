@@ -4,9 +4,10 @@
 [![npm](https://img.shields.io/npm/v/express-deprecator)](https://www.npmjs.com/package/express-deprecator)
 [![license](https://img.shields.io/github/license/orca-scan/express-deprecator)](https://github.com/orca-scan/express-deprecator/blob/master/LICENSE)
 
-Drop deprecated API traffic.
+Drop deprecated API traffic — cleanly, safely, and without legacy routes.
 
-**Why?** because over time, APIs accumulate old clients, outdated apps, and unsupported traffic. express-deprecator helps you phase them out without leaving legacy routes or messy logic in your express app.
+**Why?** over time, APIs collect old clients, outdated apps, and unsupported versions. `express-deprecator` helps you phase them out **without bloating your app logic**.
+
 
 **Features**
 * No routes needed – matches requests before your logic runs
