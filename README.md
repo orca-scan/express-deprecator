@@ -94,12 +94,7 @@ Content-Type: application/json
 
 ### What it’s not for
 
-This module is not:
-* a rate limiter
-* a firewall
-* an authentication or security layer
-
-Use it to keep your API maintainable, not to protect it from abuse.
+This is not intended to be used as a Web Application Firewall, authentication or security layer. Use it to keep your API maintainable, not to protect it from abuse.
 
 ### Why not just use code?
 
