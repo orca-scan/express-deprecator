@@ -27,6 +27,14 @@ describe('block requests', () => {
             .expect({ error: 'Deprecated ID' });
     });
 
+    it('should mute GET request with case-insensitive regex query param', async () => {
+        await request(app)
+            .get('/')
+            .query({ id: 'TEST-123' })
+            .expect(410)
+            .expect({ error: 'Deprecated ID (case-insensitive)' });
+    });
+
     it('should mute POST request with regex-matching body param', async () => {
         await request(app)
             .post('/')

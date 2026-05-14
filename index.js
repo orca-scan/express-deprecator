@@ -146,9 +146,12 @@ function matches(pattern, value) {
     }
 
     if (typeof pattern === 'string') {
-        // use regex if pattern is wrapped in slashes
-        if (pattern[0] === '/' && pattern[pattern.length - 1] === '/') {
-            var regex = new RegExp(pattern.slice(1, -1));
+        // use regex if pattern is wrapped in slashes, allowing optional flags
+        if (pattern[0] === '/' && pattern.lastIndexOf('/') > 0) {
+            var lastSlashIndex = pattern.lastIndexOf('/');
+            var regexBody = pattern.slice(1, lastSlashIndex);
+            var regexFlags = pattern.slice(lastSlashIndex + 1);
+            var regex = new RegExp(regexBody, regexFlags);
             return regex.test(String(value));
         }
 

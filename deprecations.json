@@ -36,6 +36,18 @@
         }
     },
     {
+        "description": "Block requests with test ID patterns regardless of case",
+        "method": "GET",
+        "url": "/",
+        "query": {
+            "id": "/^test-\\d+$/i"
+        },
+        "status": 410,
+        "response": {
+            "error": "Deprecated ID (case-insensitive)"
+        }
+    },
+    {
         "description": "Block all Android clients based on device name",
         "method": "POST",
         "url": "/",
